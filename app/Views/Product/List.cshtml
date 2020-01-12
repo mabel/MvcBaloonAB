@@ -1,0 +1,10 @@
+@model IEnumerable<Baloon_AB.Models.Product>
+@{
+    ViewData["Title"] = "Our products.";    
+    int ProjectId = (int)ViewData["ProjectId"];    
+}
+<ul>
+@foreach(var prod in @Model){    
+    <li>@prod.Name</li>
+}    
+</ul>

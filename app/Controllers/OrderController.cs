@@ -12,14 +12,16 @@ using Baloon_AB.Data;
 namespace Baloon_AB.Controllers
 {
     [Authorize]
-    public class ProjectController : Controller
+    public class OrderController : Controller
     {
-        private readonly ILogger<ProjectController> _logger;
+        private readonly ILogger<OrderController> _logger;
 
-        public ProjectController(ILogger<ProjectController> logger)
+        public OrderController(ILogger<OrderController> logger)
         {
             _logger = logger;
         }
+
+        /*
 
         public IActionResult Index()
         {
@@ -91,6 +93,7 @@ namespace Baloon_AB.Controllers
                 .Where(p => p.UserId == User.Identity.Name);
             return View(projects.ToList());
         }
+    */
 
         public IActionResult Privacy()
         {
