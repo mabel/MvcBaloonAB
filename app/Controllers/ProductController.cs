@@ -25,8 +25,11 @@ namespace Baloon_AB.Controllers
         public IActionResult List([FromServices] AppDbContext context, int proj)
         {
             ViewData["ProjectId"] = proj;    
-            IQueryable<Product> products = context.Products;
-                //.Where(p => p.UserId == User.Identity.Name);
+            List<int> ToExclude = context.Orders
+                .Where(o => o.ProjectId == proj)
+                .Select(o => o.ProductId).ToList();
+            IQueryable<Product> products = context.Products
+                .Where(p => !(ToExclude.Contains(p.Id)));
             return View(products.ToList());
         }
 

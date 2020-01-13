@@ -82,6 +82,9 @@ namespace Baloon_AB.Controllers
             {
                 return NotFound();
             }
+            IQueryable<OrderRow> orders = context.OrderRows
+                .Where(o => o.ProjectId == id);
+            ViewData["Orders"] = orders.ToList();
             return View(proj);
         }
     

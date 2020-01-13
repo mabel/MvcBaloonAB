@@ -12,6 +12,7 @@ using Baloon_AB.Data;
 namespace Baloon_AB.Controllers
 {
     [Authorize]
+    [Route("[controller]/{proj}/{prod}/[action]")]
     public class OrderController : Controller
     {
         private readonly ILogger<OrderController> _logger;
@@ -21,79 +22,36 @@ namespace Baloon_AB.Controllers
             _logger = logger;
         }
 
-        /*
-
-        public IActionResult Index()
+        public IActionResult Add([FromServices] AppDbContext context, int proj, int prod, int amount)
         {
-            return RedirectToAction("List");
-        }
-
-        public IActionResult Add([FromServices] AppDbContext context, string project_name, string user_name)
-        {
-            if(project_name == null) return RedirectToAction("List");
-            Project proj = new Project();
-            proj.Name = project_name;
-            proj.UserId = user_name;
-            proj.InitDate = DateTime.Now;
-            context.Projects.Add(proj);
+            IQueryable<Order> orders = context.Orders
+                .Where(o => o.ProjectId == proj && o.ProductId == prod);
+            if(orders.Count() == 0){
+                Order order = new Order();
+                order.ProjectId = proj;
+                order.ProductId = prod;
+                order.Amount = amount;
+                context.Orders.Add(order);
+            }
+            else {
+                Order order = orders.ToList().ElementAt(0);
+                order.Amount = amount;
+            }
             context.SaveChanges();
-            return RedirectToAction("List");
+            return Redirect("/project/item/" + proj);
         }
 
-        public IActionResult Del([FromServices] AppDbContext context, int? id)
+        public IActionResult Del([FromServices] AppDbContext context, int proj, int prod)
         {
-            if (id == null)
-            {
-                return BadRequest();
+            IQueryable<Order> orders = context.Orders
+                .Where(o => o.ProjectId == proj && o.ProductId == prod);
+            if(orders.Count() > 0){
+                Order order = orders.ToList().ElementAt(0);
+                context.Orders.Remove(order);
+                context.SaveChanges();
             }
-            Project proj = context.Projects.Find(id);
-            if (proj == null)
-            {
-                return NotFound();
-            }
-            context.Projects.Remove(proj);
-            context.SaveChanges();
-            return RedirectToAction("List");
+            return Redirect("/project/item/" + proj);
         }
-
-        public IActionResult Edit([FromServices] AppDbContext context, int? id, string Name, DateTime InitDate)
-        {
-            if (id == null)
-            {
-                return BadRequest();
-            }
-            Project proj = context.Projects.Find(id);
-            if (proj == null)
-            {
-                return NotFound();
-            }
-            proj.Name = Name;
-            proj.InitDate = InitDate;
-            context.SaveChanges();
-            return RedirectToAction("List");
-        }
-
-        public IActionResult Item([FromServices] AppDbContext context, int? id)
-        {
-            if (id == null)
-            {
-                return BadRequest();
-            }
-            Project proj = context.Projects.Find(id);
-            if (proj == null)
-            {
-                return NotFound();
-            }
-            return View(proj);
-        }
-    
-        public IActionResult List([FromServices] AppDbContext context)
-        {
-            IQueryable<Project> projects = context.Projects
-                .Where(p => p.UserId == User.Identity.Name);
-            return View(projects.ToList());
-        }
-    */
 
         public IActionResult Privacy()
         {

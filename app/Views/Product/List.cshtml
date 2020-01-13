@@ -3,8 +3,17 @@
     ViewData["Title"] = "Our products.";    
     int ProjectId = (int)ViewData["ProjectId"];    
 }
-<ul>
+<table style="width: 1024px">
 @foreach(var prod in @Model){    
-    <li>@prod.Name</li>
+    <tr>
+        <td>@prod.Name</td>
+        <td>@prod.Description</td>
+        <td>
+            <form action="/order/@ProjectId/@prod.Id/add">
+                <input min="1" name="amount" type="number" value="1">
+                <input type="submit" value="Submit">
+            </form>
+        </td>
+    </tr>
 }    
 </ul>

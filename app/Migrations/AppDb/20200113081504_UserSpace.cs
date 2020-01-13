@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Baloon_AB.Migrations.AppDb
 {
-    public partial class InitUserspace : Migration
+    public partial class UserSpace : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,12 +11,15 @@ namespace Baloon_AB.Migrations.AppDb
                 name: "Orders",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     ProjectId = table.Column<int>(nullable: false),
                     ProductId = table.Column<int>(nullable: false),
                     Amount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(

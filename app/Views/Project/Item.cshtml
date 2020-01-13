@@ -1,6 +1,7 @@
 @model Baloon_AB.Models.Project
 @{
     ViewData["Title"] = "Project Details";    
+    List <OrderRow> orders = (List<OrderRow>)ViewData["Orders"];    
 }
 <h1>View and/or edit your project &laquo;@Model.Name&raquo; (@Model.InitDate)</h1>
 
@@ -26,11 +27,32 @@
         </div>
     </div>
 </form>
+@if(orders.Count() > 0){    
+    <table style="width: 100%">
+    @foreach(var order in orders){
+        <tr>
+            <td>@order.Product</td>
+            <td>@order.Description</td>
+            <td>@order.Price</td>
+            <td>
+                <form action="/order/@order.ProjectId/@order.ProductId/add">
+                    <input min="1" name="amount" type="number" value="@order.Amount">
+                    <input type="submit" value="Submit">
+                </form>
+            </td>
+            <td>@order.Total</td>
+            <td>
+                <a href="/order/@order.ProjectId/@order.ProductId/del">Delete</a>
+            </td>
+        </tr>
+    }
+    </table>
+}
 
 <div>
     <a href="/product/@Model.Id/list">Choose building meterials</a>
 </div>
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to list of projects.", "Index")
 </div>

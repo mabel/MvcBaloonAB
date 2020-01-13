@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Baloon_AB.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200111224457_InitUserspace")]
-    partial class InitUserspace
+    [Migration("20200113132559_OrderRowView")]
+    partial class OrderRowView
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,10 @@ namespace Baloon_AB.Migrations.AppDb
 
             modelBuilder.Entity("Baloon_AB.Models.Order", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Amount")
                         .HasColumnType("INTEGER");
 
@@ -28,6 +32,8 @@ namespace Baloon_AB.Migrations.AppDb
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Orders");
                 });
