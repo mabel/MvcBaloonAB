@@ -34,7 +34,10 @@ namespace Baloon_AB
                 options.UseSqlite(
                     Configuration.GetConnectionString("AuthConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AuthDbContext>();
+            //services.AddDefaultIdentity<IdentityRole>()
+            //    .AddEntityFrameworkStores<AuthDbContext>();
             services.AddControllersWithViews();
            services.AddRazorPages();
         }
