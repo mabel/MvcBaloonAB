@@ -31,28 +31,22 @@ namespace Baloon_AB.Controllers
             return RedirectToAction("List");
         }
 
-        public IActionResult Add([FromServices] AppDbContext context, string project_name, string user_name)
+        public IActionResult Add([FromServices] AppDbContext context, [Bind("Name")] Project proj)
         {
-            if(project_name == null) return RedirectToAction("List");
-            Project proj = new Project();
-            proj.Name = project_name;
-            proj.UserId = user_name;
-            proj.InitDate = DateTime.Now;
-            if (!TryValidateModel(proj, nameof(Project)))
-            {
+            Console.WriteLine(proj.Name);
+            if(!ModelState.IsValid) 
+            { 
                 return RedirectToAction("Bad");
-            }
+            } 
+            proj.UserId = User.Identity.Name;
+            proj.InitDate = DateTime.Now;
             context.Projects.Add(proj);
             context.SaveChanges();
             return RedirectToAction("List");
         }
 
-        public IActionResult Del([FromServices] AppDbContext context, int? id)
+        public IActionResult Del([FromServices] AppDbContext context, int id)
         {
-            if (id == null)
-            {
-                return BadRequest();
-            }
             Project proj = context.Projects.Find(id);
             if (proj == null)
             {

@@ -13,7 +13,6 @@ else{
         @foreach (var proj in Model) {
             <li>
                 @Html.ActionLink(@proj.Name, "Item", new {id=@proj.Id})
-                <!-- @Html.ActionLink("Edit", "Edit", new {id=@proj.Id}) -->
                 @Html.ActionLink("Delete", "Del", new {id=@proj.Id})
             </li>
         }
@@ -22,7 +21,6 @@ else{
 
 <h6>Add your new project</h6>
 <form action='/project/add'>
-    <input name='project_name'>
-    <input type='hidden' value='@User.Identity.Name' name='user_name'>
+    <input name='Name'>
     <input type='submit' value='Submit!'>
 </form>

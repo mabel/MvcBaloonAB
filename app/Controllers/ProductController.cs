@@ -12,7 +12,7 @@ using Baloon_AB.Data;
 namespace Baloon_AB.Controllers
 {
     [Authorize]
-    [Route("[controller]/{proj}/[action]/{id?}")]
+    [Route("[controller]/{proj}/[action]")]
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> _logger;

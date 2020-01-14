@@ -8,27 +8,26 @@ namespace tests
 {
 
     [TestFixture]
-    public class CheckProject
+    public class CheckOrder
     {
-        [TestCase("")]
-        [TestCase("a")]
-        [TestCase("ab")]
-        public void ProjectModelSouldNotBeCorrect(string projName)
+        [TestCase(0)]
+        [TestCase(-5)]
+        public void OrderModelSouldNotHaveZeroOrNegativeNumber(int amount)
         {
             CheckPropertyValidation cpv = new CheckPropertyValidation();    
-            var proj = new Project();    
-            proj.Name = projName;
-            var errorcount = cpv.myValidation(proj).Count;    
+            var order = new Order();    
+            order.Amount = amount;
+            var errorcount = cpv.myValidation(order).Count;    
             Assert.AreEqual(1, errorcount);
         }
         
-        [TestCase("abc")]
-        public void ProjectModelSouldBeCorrect(string projName)
+        [TestCase(1)]
+        public void ProjectModelSouldBeCorrect(int amount)
         {
             CheckPropertyValidation cpv = new CheckPropertyValidation();    
-            var proj = new Project();    
-            proj.Name = projName;
-            var errList = cpv.myValidation(proj);    
+            var order = new Order();    
+            order.Amount = amount;
+            var errList = cpv.myValidation(order);    
             var errorcount = errList.Count;    
             Assert.AreEqual(0, errorcount);
         }
