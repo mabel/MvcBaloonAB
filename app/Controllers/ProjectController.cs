@@ -21,6 +21,11 @@ namespace Baloon_AB.Controllers
             _logger = logger;
         }
 
+        public IActionResult Bad()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return RedirectToAction("List");
@@ -33,6 +38,10 @@ namespace Baloon_AB.Controllers
             proj.Name = project_name;
             proj.UserId = user_name;
             proj.InitDate = DateTime.Now;
+            if (!TryValidateModel(proj, nameof(Project)))
+            {
+                return RedirectToAction("Bad");
+            }
             context.Projects.Add(proj);
             context.SaveChanges();
             return RedirectToAction("List");
