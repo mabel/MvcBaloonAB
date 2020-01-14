@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Baloon_AB.Data;
 using Baloon_AB.Models;
+using Baloon_AB.ViewModels;
 
 namespace Baloon_AB.Controllers
 {
@@ -20,9 +22,18 @@ namespace Baloon_AB.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index([FromServices] AppDbContext context)
         {
-            return View();
+            List<ReportViewModel> reports = new List<ReportViewModel>();
+            List<Project> projects = context.Projects.ToList();
+            foreach(var project in projects){
+                var report = new ReportViewModel();
+                report.ThisProject = project;
+                report.Rows = context.OrderRows
+                    .Where(o => o.ProjectId == project.Id).ToList();
+                reports.Add(report);
+            }
+            return View(reports);
         }
 
         public IActionResult Privacy()

@@ -1,1 +1,27 @@
-<h1>Projects of all users</h1>
+@model List<Baloon_AB.ViewModels.ReportViewModel>
+@{ViewData["Title"] = "Report";}
+
+<h1>All these users @Model.Count() projects</h1>
+
+@foreach(var report in @Model){
+    @if(@report.Rows.Count() == 0){continue;}
+    <h2>&laquo;@report.ThisProject.Name&raquo; of @report.ThisProject.UserId (@report.ThisProject.InitDate)</h2>    
+    <table style="width: 100%">
+    <tr>
+        <th>Product</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Amount</th>
+        <th>Total</th>
+    </tr>
+    @foreach(var row in @report.Rows){
+        <tr>
+            <td>@row.Product</td>
+            <td>@row.Description</td>
+            <td>@row.Price</td>
+            <td>@row.Amount</td>
+            <td>@row.Total</td>
+        </tr>
+    }
+    </table>
+}
